@@ -1,0 +1,28 @@
+.box {
+    border: 1px solid rgb(0, 255, 51);
+    background-color: antiquewhite;
+    max-width: 400px;
+  }
+  
+  .list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+  
+  .item {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .link {
+    text-decoration: none;
+  }
+  
+  .title {
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+  }
