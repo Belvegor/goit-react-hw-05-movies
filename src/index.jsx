@@ -1,8 +1,8 @@
 import { Suspense, lazy } from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
 import { Spinner } from "./components/Spinner/Spinner";
-import { RootLayout } from "./shared/Shared";
+import { Shared } from "./shared/Shared";
 import "./index.css";
 
 const Home = lazy(() => import("./pages/Home/Home"));
@@ -12,8 +12,8 @@ const Cast = lazy(() => import("./components/Cast/Cast"));
 const Reviews = lazy(() => import("./components/Reviews/Reviews"));
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <Router>
-    <RootLayout>
+  <BrowserRouter basename="/goit-react-hw-05-movies/">
+    <Shared>
       <Suspense fallback={<Spinner />}>
         <Routes>
           <Route path="/" element={<Home />}/>
@@ -24,6 +24,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           </Route>
         </Routes>
       </Suspense>
-    </RootLayout>
-  </Router>
+    </Shared>
+  </BrowserRouter>
 );

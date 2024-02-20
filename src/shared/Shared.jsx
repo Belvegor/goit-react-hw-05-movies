@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import styles from "./Shared.module.css"
 import PropTypes from "prop-types";
 
-export function RootLayout({ children }) {
+export function Shared({ children }) {
   return (
     <>
       <header className={styles.bar}>
@@ -24,6 +24,6 @@ export function RootLayout({ children }) {
   );
 }
 
-RootLayout.propTypes = {
+Shared.propTypes = {
     children: PropTypes.object.isRequired,
   };
