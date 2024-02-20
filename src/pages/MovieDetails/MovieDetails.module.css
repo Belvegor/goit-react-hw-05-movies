@@ -13,3 +13,13 @@
   .tagline {
     font-style: italic;
   }
+  .button {
+    display: inline-block;
+    animation: cursorBlink 1s infinite;
+    font-size: 50px;
+    border-radius: 10px;
+    border-color: darkgray;
+    outline: none;
+    margin-left: 20px;
+    margin-top: 20px;
+  }

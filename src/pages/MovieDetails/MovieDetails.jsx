@@ -1,16 +1,18 @@
-import styles from "./MovieDetails.module.css";
+import React from "react";
 import { useState, useEffect } from "react";
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Link, Outlet, useParams, useNavigate } from "react-router-dom";
 import { fetchMovieDetails } from "../../services/gettData";
+import styles from "./MovieDetails.module.css";
 
 const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState({});
   const { movieId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchMovieDetails(movieId); 
+        const data = await fetchMovieDetails(movieId);
         setMovieDetails(data);
       } catch (error) {
         console.error('Błąd podczas pobierania szczegółów filmu: ', error);
@@ -20,9 +22,14 @@ const MovieDetails = () => {
     fetchData();
   }, [movieId]);
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <>
       <div className={styles.container}>
+        <button onClick={goBack} className={styles.button}>GO BACK</button>
         <h1 className={styles.title}>{movieDetails.title}</h1>
         <p className={styles.tagline}>{movieDetails.tagline}</p>
         <img
@@ -46,6 +53,6 @@ const MovieDetails = () => {
       </div>
     </>
   );
-}
+};
 
 export default MovieDetails;

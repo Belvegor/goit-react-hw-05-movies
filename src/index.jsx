@@ -1,6 +1,6 @@
 import { Suspense, lazy } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { Spinner } from "./components/Spinner/Spinner";
 import { Shared } from "./shared/Shared";
 import "./index.css";
@@ -22,6 +22,7 @@ createRoot(document.getElementById("root")).render(
             <Route path="cast" element={<Cast />} />
             <Route path="reviews" element={<Reviews />} />
           </Route>
+         <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Suspense>
     </Shared>
