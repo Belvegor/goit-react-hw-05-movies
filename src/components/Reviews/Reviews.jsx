@@ -1,28 +1,25 @@
 import styles from "./Reviews.module.css";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { fetchMovieReviews } from "../../services/gettData";
 
 export default function Reviews() {
   const [movieReviews, setMovieReviews] = useState([]);
   const { movieId } = useParams();
 
   useEffect(() => {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MTUzZWIwMTE1YjZmYzAzYzk2ZDVjYmRjYTIyNGE4MiIsInN1YiI6IjY1Y2NhOGEzZWQyYWMyMDE4NmFmMzFkOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.V8bKb2qIcmg37gf1GuUVfosjn0elS-3PU1V4SrR6rxM",
-      },
+    const fetchReviewsData = async () => {
+      try {
+        const data = await fetchMovieReviews(movieId);
+        setMovieReviews(data);
+      } catch (error) {
+        console.error('Błąd podczas pobierania recenzji: ', error);
+      }
     };
 
-    fetch(`https://api.themoviedb.org/3/movie/${movieId}/reviews?language=en-US&page=1`, options)
-      .then((response) => response.json())
-      .then((response) => {
-        setMovieReviews(response.results);
-      })
-      .catch((error) => console.error(error));
+    fetchReviewsData();
   }, [movieId]); 
+
   return (
     <>
       <ul className={styles.review_list}>

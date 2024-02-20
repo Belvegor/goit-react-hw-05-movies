@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { SearchInput } from "../../components/SearchInput/SearchInput";
 import { Spinner } from "../../components/Spinner/Spinner";
 import { MoviesList } from "../../components/MoviesList/MoviesList";
+import { searchMovie } from "../../services/gettData";
 
 export default function Movies() {
   const [query, setQuery] = useState("");
@@ -14,25 +15,17 @@ export default function Movies() {
   };
 
   useEffect(() => {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MTUzZWIwMTE1YjZmYzAzYzk2ZDVjYmRjYTIyNGE4MiIsInN1YiI6IjY1Y2NhOGEzZWQyYWMyMDE4NmFmMzFkOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.V8bKb2qIcmg37gf1GuUVfosjn0elS-3PU1V4SrR6rxM",
-      },
+    const fetchData = async () => {
+      try {
+        const data = await searchMovie(query);
+        setSearchMovies(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Błąd podczas pobierania danych: ', error);
+      }
     };
 
-    fetch(
-      `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`,
-      options
-    )
-      .then((response) => response.json())
-      .then((response) => {
-        setSearchMovies(response.results);
-        setIsLoading(false);
-      })
-      .catch((error) => console.error(error));
+    fetchData();
   }, [query]);
 
   return (

@@ -1,33 +1,24 @@
 import styles from "./MovieDetails.module.css";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
+import { fetchMovieDetails } from "../../services/gettData";
 
-export default function MovieDetails() {
+const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState({});
   const { movieId } = useParams();
 
-  const options = useMemo (() => {
-    return {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MTUzZWIwMTE1YjZmYzAzYzk2ZDVjYmRjYTIyNGE4MiIsInN1YiI6IjY1Y2NhOGEzZWQyYWMyMDE4NmFmMzFkOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.V8bKb2qIcmg37gf1GuUVfosjn0elS-3PU1V4SrR6rxM",
-    },
-  };
-}, []);
-
   useEffect(() => {
-    fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
-      options
-    )
-      .then((response) => response.json())
-      .then((response) => {
-        setMovieDetails(response);
-      })
-      .catch((error) => console.error(error));
-  }, [movieId, options]);
+    const fetchData = async () => {
+      try {
+        const data = await fetchMovieDetails(movieId); 
+        setMovieDetails(data);
+      } catch (error) {
+        console.error('Błąd podczas pobierania szczegółów filmu: ', error);
+      }
+    };
+
+    fetchData();
+  }, [movieId]);
 
   return (
     <>
@@ -56,3 +47,5 @@ export default function MovieDetails() {
     </>
   );
 }
+
+export default MovieDetails;
